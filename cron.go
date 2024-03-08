@@ -1,11 +1,11 @@
 package cron
 
 import (
+	"github.com/google/uuid"
 	"log"
 	"runtime"
 	"sort"
 	"time"
-	"github.com/satori/go.uuid"
 )
 
 // Cron keeps track of any number of entries, invoking the associated func as
@@ -106,7 +106,7 @@ type FuncJob func() (msg string, err error)
 
 func (f FuncJob) Run() (msg string, err error) { return f() }
 
-func (f FuncJob) ID() string { return uuid.Must(uuid.NewV4(), nil).String() }
+func (f FuncJob) ID() string { return uuid.Must(uuid.New(), nil).String() }
 
 // AddFunc adds a func to the Cron to be run on the given schedule.
 func (c *Cron) AddFunc(spec string, cmd func() (msg string, err error)) error {
@@ -245,13 +245,12 @@ func (c *Cron) run() {
 
 			case id := <-c.remove:
 				timer.Stop()
-                                now = c.now()
+				now = c.now()
 				delete(c.entries, id)
 
 			case <-c.snapshot:
 				c.snapshot <- c.entrySnapshot()
 				continue
-
 
 			case <-c.stop:
 				timer.Stop()

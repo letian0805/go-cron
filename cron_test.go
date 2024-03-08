@@ -1,11 +1,11 @@
 package cron
 
 import (
+	"github.com/google/uuid"
 	//"fmt"
 	"sync"
 	"testing"
 	"time"
-	"github.com/satori/go.uuid"
 )
 
 // Many tests schedule a job for every second, and then wait at most a second
@@ -282,7 +282,7 @@ type testJob struct {
 }
 
 func (t testJob) ID() string {
-	return uuid.Must(uuid.NewV4(), nil).String()
+	return uuid.Must(uuid.New(), nil).String()
 }
 
 func (t testJob) Run() error {

@@ -1,5 +1,5 @@
 module github.com/ringtail/go-cron
 
-go 1.15
+go 1.21
 
-require github.com/satori/go.uuid v1.2.0
+require github.com/google/uuid v1.6.0
